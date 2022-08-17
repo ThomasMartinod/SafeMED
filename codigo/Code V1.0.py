@@ -11,3 +11,5 @@ data['geometry'] = data['geometry'].apply(wkt.loads)
 edges = gpd.GeoDataFrame(data)
 
 # The data is saved as a Pandas DataFrame :)
+# You must download the .csv file from 
+# https://raw.githubusercontent.com/mauriciotoro/ST0245-Eafit/master/proyecto/Datasets/poligono_de_medellin.csv
