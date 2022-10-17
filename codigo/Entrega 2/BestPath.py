@@ -15,7 +15,7 @@ def CreateGraph(df):
         # We assemble the graph :)
 
         # For oneway routes
-        if df.iloc[j]['oneway'] is True:
+        if df.iloc[j]['oneway'] is False:
             G[df.iloc[j]['origin']][df.iloc[j]['destination']] = (df.iloc[j]['harassmentRisk'],df.iloc[j]['length'])
             G[df.iloc[j]['destination']][df.iloc[j]['origin']] = (df.iloc[j]['harassmentRisk'],df.iloc[j]['length'])
         else:
