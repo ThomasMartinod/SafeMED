@@ -61,7 +61,7 @@ def Dijkstra(G, Origin, Destination): # G: Graph, Origin: Starting Vertex, Desti
                 PathValue = (1/2)*CurrentPathValue + (100)*(Risk[0] * Risk[1])          # Formula for finding the inverse satisfaction
                 # The assigned value for the edge
                 try:                                        # Dijkstra's algorithm
-                    if PathValue < MinPV[Adyacent][0]:
+                    if PathValue < MinPV[Adjacent][0]:
                         MinPV[Adjacent][0] = PathValue
                         MinPV[Adjacent][1] = CurrentVertex
                         heapq.heappush(H, (PathValue, Adjacent))
