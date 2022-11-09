@@ -2,8 +2,7 @@ import heapq
 import pandas as pd
 from collections import deque
 from PlotSafeRoute import Plot
-import math as mt
-
+import time
 
 def CreateGraph(df):
     V = df['origin'].unique()   # Set of vertices
@@ -50,7 +49,7 @@ def Dijkstra(G, Origin, Destination, Op: int): # G: Graph, Origin: Starting Vert
                 Predecessor = MinPV[Predecessor][1]
                 PathTaken.append(Predecessor)
             
-            print("Riesgo promedio: " + str(ActualRisk/(len(PathTaken)-1)) +"\nDistancia acumulada de: "+ str(ActualDistance))
+            print("Average risk: " + str(ActualRisk/(len(PathTaken)-1)) +"\nTotal Distance: "+ str(ActualDistance) + "\n")
             return PathTaken
 
         if CurrentPathValue > MinPV[CurrentVertex][0]:
@@ -58,20 +57,20 @@ def Dijkstra(G, Origin, Destination, Op: int): # G: Graph, Origin: Starting Vert
 
         for Adyacente, Risk in G[CurrentVertex].items():
             if Op == 1:
-                Comb = CurrentPathValue
+                Var = CurrentPathValue + (1/2)*Risk[1] + 100*Risk[0]
             elif Op == 2:
-                Comb = 100*Risk[0] + 100*Risk[1] + CurrentPathValue
+                Var = 100*Risk[0] + 100*Risk[1] + CurrentPathValue
             elif Op == 3:
-                Comb = CurrentPathValue + Risk[0]**Risk[1]
+                Var = CurrentPathValue + Risk[1]**Risk[0]
 
 
             Distancia = ActualDistance + Risk[1]
             Riesgo = ActualRisk + Risk[0]
             try:
-                if Comb < MinPV[Adyacente][0]:
-                    MinPV[Adyacente][0] = Comb
+                if Var < MinPV[Adyacente][0]:
+                    MinPV[Adyacente][0] = Var
                     MinPV[Adyacente][1] = CurrentVertex
-                    heapq.heappush(H, (Comb, Adyacente, Distancia, Riesgo))
+                    heapq.heappush(H, (Var, Adyacente, Distancia, Riesgo))
             except KeyError:
                 continue
 
@@ -87,6 +86,8 @@ def main():
     print('Input the destination coordinates')
     Destination = str(input())
 
+    start_time = time.time()
+
     df = pd.read_csv('calles_de_medellin_con_acoso.csv', sep=";")       # df: dataframe of the .csv file
     df = df.fillna({"harassmentRisk": df["harassmentRisk"].mean()})     # We fill the NaNs in risk with the mean
 
@@ -94,6 +95,7 @@ def main():
 
     Plot.CreatePlot( Dijkstra(G, Origin, Destination, 1), Dijkstra(G, Origin, Destination, 2), Dijkstra(G, Origin, Destination, 3))
 
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 main()
