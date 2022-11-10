@@ -107,4 +107,7 @@ The following coordinates were used for the test cases:
     - U_Medellin = "(-75.6101004, 6.2312125)"
     - U_Antioquia = "(-75.5694416, 6.2650137)"
     - U_Nacional = "(-75.5762232, 6.266327)"
-    - LuisAmigo = "(-75.5832559, 6.2601878)" """
+    - LuisAmigo = "(-75.5832559, 6.2601878)" 
+    - Pueblito_Paisa = "(-75.5808252, 6.2339338)" 
+    - Estación_Alpujarra = "(-75.5724095, 6.2421442)"
+    - Parque_delos_Pies_Descalzos = "(-75.5757997, 6.2456824)" """
