@@ -1,8 +1,10 @@
 import heapq
 import pandas as pd
 from collections import deque
-from PlotSafeRoute import Plot
 import time
+import os
+from PlotSafeRoute import Plot
+
 
 def CreateGraph(df):
     V = df['origin'].unique()   # Set of vertices
@@ -49,28 +51,33 @@ def Dijkstra(G, Origin, Destination, Op: int): # G: Graph, Origin: Starting Vert
                 Predecessor = MinPV[Predecessor][1]
                 PathTaken.append(Predecessor)
             
+            print("For the equation number " + str(Op) + " the final values are:")
             print("Average risk: " + str(ActualRisk/(len(PathTaken)-1)) +"\nTotal Distance: "+ str(ActualDistance) + "\n")
             return PathTaken
 
         if CurrentPathValue > MinPV[CurrentVertex][0]:
             continue
 
-        for Adyacente, Risk in G[CurrentVertex].items():
+        for Adyacente, Item in G[CurrentVertex].items():    
+
+            # Item[0] = Risk = R
+            # Item[1] = Distance = D
+
             if Op == 1:
-                Var = CurrentPathValue + (1/2)*Risk[1] + 100*Risk[0]
+                PathValue = CurrentPathValue + (1/2)*Item[1] + 100*Item[0]
             elif Op == 2:
-                Var = 100*Risk[0] + 100*Risk[1] + CurrentPathValue
+                PathValue = CurrentPathValue + 100*Item[0] + 100*Item[1]
             elif Op == 3:
-                Var = CurrentPathValue + Risk[1]**Risk[0]
+                PathValue = CurrentPathValue + Item[1]**Item[0]
 
 
-            Distancia = ActualDistance + Risk[1]
-            Riesgo = ActualRisk + Risk[0]
+            Distancia = ActualDistance + Item[1]
+            Riesgo = ActualRisk + Item[0]
             try:
-                if Var < MinPV[Adyacente][0]:
-                    MinPV[Adyacente][0] = Var
+                if PathValue < MinPV[Adyacente][0]:
+                    MinPV[Adyacente][0] = PathValue
                     MinPV[Adyacente][1] = CurrentVertex
-                    heapq.heappush(H, (Var, Adyacente, Distancia, Riesgo))
+                    heapq.heappush(H, (PathValue, Adyacente, Distancia, Riesgo))
             except KeyError:
                 continue
 
@@ -78,13 +85,18 @@ def Dijkstra(G, Origin, Destination, Op: int): # G: Graph, Origin: Starting Vert
 def main():
     # Conventions: G-> Graph; V-> Set of vertices of G; E-> Set of Edges of G
 
-    print('Welcome to SafeMed; This program does something')
+    os.system('cls')
 
-    print('Input the origin coordinates: ')
+    print('Welcome to SafeMed; This program reduces harrasment risk and distance given an initial and final coordinate :)')
+
+    print('\nInput the origin coordinates: ')
     Origin = str(input())
 
-    print('Input the destination coordinates')
+    print('\nInput the destination coordinates:')
     Destination = str(input())
+
+    print('\nPlease stand by, this only will take a few seconds\n')
+
 
     start_time = time.time()
 
@@ -93,21 +105,32 @@ def main():
 
     G = CreateGraph(df)
 
-    Plot.CreatePlot( Dijkstra(G, Origin, Destination, 1), Dijkstra(G, Origin, Destination, 2), Dijkstra(G, Origin, Destination, 3))
+    AlgTime = time.time()
 
-    print("--- %s seconds ---" % (time.time() - start_time))
+    Plot.CreatePlot(Dijkstra(G, Origin, Destination, 1), Dijkstra(G, Origin, Destination, 2), Dijkstra(G, Origin, Destination, 3))
 
+    print("T_Programme: --- %s seconds ---" % (time.time() - start_time))
+    print("T_Dijkstra: --- %s seconds ---\n" % (time.time() - AlgTime))
+
+    print('Thanks! Be safe')
 
 main()
 
 
 """
 The following coordinates were used for the test cases:
-    - Eafit = "(-75.5778046, 6.2029412)"
-    - U_Medellin = "(-75.6101004, 6.2312125)"
-    - U_Antioquia = "(-75.5694416, 6.2650137)"
-    - U_Nacional = "(-75.5762232, 6.266327)"
-    - LuisAmigo = "(-75.5832559, 6.2601878)" 
-    - PueblitoPaisa = "(-75.5808252, 6.2339338)" 
-    - EstaciónAlpujarra = "(-75.5724095, 6.2421442)"
-    - Parque_PiesDescalzos = "(-75.5757997, 6.2456824)" """
+    - Eafit = (-75.5778046, 6.2029412)
+    - U_Medellin = (-75.6101004, 6.2312125)
+    - U_Antioquia = (-75.5694416, 6.2650137)
+    - U_Nacional = (-75.5762232, 6.266327)
+    - LuisAmigo = (-75.5832559, 6.2601878) 
+    - PueblitoPaisa = (-75.5808252, 6.2339338) 
+    - EstaciónAlpujarra = (-75.5724095, 6.2421442)
+    - Parque_PiesDescalzos = "(-75.5757997, 6.2456824)
+    - Jardin Infantil Heidelberg (La Estrella) = (-75.6456992, 6.1667406)
+    - Hotel Dann Carlton = (-75.5703436, 6.2077406)
+    - Loma de los Bernal = (-75.6064698, 6.2178043) 
+    - Vía San Jerónimo = (-75.6909483, 6.338773)
+    - Parque San Antonio De Prado = (-75.6560151, 6.1853283) 
+
+"""
