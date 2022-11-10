@@ -126,7 +126,7 @@ The following coordinates were used for the test cases:
     - Luis Amigó = (-75.5832559, 6.2601878) 
     - Pueblito Paisa = (-75.5808252, 6.2339338) 
     - Estación Alpujarra = (-75.5724095, 6.2421442)
-    - Parque de los Pies Descalzos = "(-75.5757997, 6.2456824)
+    - Parque de los Pies Descalzos = (-75.5757997, 6.2456824)
     - Jardin Infantil Heidelberg (La Estrella) = (-75.6456992, 6.1667406)
     - Hotel Dann Carlton = (-75.5703436, 6.2077406)
     - Loma de los Bernal = (-75.6064698, 6.2178043) 
