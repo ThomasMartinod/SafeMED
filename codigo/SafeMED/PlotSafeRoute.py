@@ -43,11 +43,11 @@ class Plot:
         
         myGmap = gmplot.GoogleMapPlotter(6.22, -75.6, 14)  
         
-        myGmap.plot(U1, T1, 'aquamarine', edge_width = 8.0) 
-        myGmap.plot(U2, T2, 'mediumslateblue', edge_width = 8.0)
-        myGmap.plot(U3, T3, 'violet', edge_width = 8.0)
+        myGmap.plot(U1, T1, 'aquamarine', edge_width = 10.0)             # First equation
+        myGmap.plot(U2, T2, 'mediumslateblue', edge_width = 7.0)        # Second equation
+        myGmap.plot(U3, T3, 'violet', edge_width = 4.0)                 # Third equation
         
-        myGmap.marker(U1[-1],T1[-1] , "red", title="Destino")
-        myGmap.marker(U1[0],T1[0] , "red", title="Origen")
+        myGmap.marker(U1[-1],T1[-1] , "red", title="Destination")
+        myGmap.marker(U1[0],T1[0] , "red", title="Origin")
         
         myGmap.draw('C:\\Users\\thomm\\Desktop\\SafeMED\\Map.html')
